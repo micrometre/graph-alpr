@@ -9,29 +9,16 @@ const GET_MOVIES = gql`
       title
       tagline
       released
-      actors {
-        name
-      }
-      directors {
-        name
-      }
     }
   }
 `
-
 export default function Home() {
   const { loading, error, data } = useQuery<{ movies: Movies }>(GET_MOVIES)
-
   if (loading) return 'Loading...'
   if (error) return `Error! ${error.message}`
 
   return (
     <div className="container">
-      <Head>
-        <title>Next with Neo4j</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <main>
         <div className="movies">
           <div className="subtitle">
@@ -46,8 +33,6 @@ export default function Home() {
                 <th>Movie Title</th>
                 <th>Released</th>
                 <th>Tagline</th>
-                <th>Directed</th>
-                <th>Actors</th>
               </tr>
             </thead>
             <tbody>
@@ -67,32 +52,6 @@ export default function Home() {
                   </td>
                   <td>{movie.released}</td>
                   <td>{movie.tagline}</td>
-                  <td>
-                    <ul>
-                      {movie.directors.map((director) => (
-                        <li key={director.name}>{director.name}</li>
-                      ))}
-                    </ul>
-                  </td>
-                  <td>
-                    <ul>
-                      {movie.actors.map((actor) => (
-                        <li key={actor.name}>
-                          <Link
-                            href="/actor/[name]"
-                            as={{
-                              pathname: `/actor/${encodeURIComponent(
-                                actor.name
-                              )}`,
-                            }}
-                            legacyBehavior
-                          >
-                            <a className="link">{actor.name}</a>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </td>
                 </tr>
               ))}
             </tbody>

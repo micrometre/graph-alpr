@@ -7,16 +7,9 @@ import type { Movies } from '../../types'
 const GET_MOVIE = gql`
   query GetMovie($movieTitle: String) {
     movies(where: { title: $movieTitle }) {
-      title
       tagline
       released
-      actors {
-        name
-      }
-      directors {
-        name
-      }
-    }
+  }
   }
 `
 
@@ -32,12 +25,6 @@ export default function Movie() {
 
   return (
     <div className="container">
-      <Head>
-        <title>Next with Neo4j</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-
       <main>
         <div className="movie">
           <div className="info">
@@ -51,28 +38,15 @@ export default function Movie() {
               {data.movies[0].released}
             </div>
           </div>
-          <div className="actors">
-            <h2>Actors</h2>
-            {data.movies[0].actors.map((actor) => (
-              <div key={actor.name}>{actor.name}</div>
-            ))}
-          </div>
           <div className="directors">
-            <h2>Directors</h2>
-            {data.movies[0].directors.map((director) => (
-              <div key={director.name}>{director.name}</div>
-            ))}
           </div>
         </div>
-
         <div className="back">
           <Link href="/" legacyBehavior>
             <a>🔙 Go Back</a>
           </Link>
         </div>
       </main>
-
-
       <style jsx>
         {`
           .container {
